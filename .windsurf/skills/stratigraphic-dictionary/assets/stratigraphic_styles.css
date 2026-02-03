@@ -1,0 +1,359 @@
+/* stratigraphic_styles.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+header h1 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#csvFileInput {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#exportBtn {
+    background-color: #27ae60;
+}
+
+#exportBtn:hover {
+    background-color: #219653;
+}
+
+#instructions {
+    font-size: 14px;
+    color: #7f8c8d;
+    background-color: #ecf0f1;
+    padding: 8px 12px;
+    border-radius: 4px;
+    flex-grow: 1;
+    text-align: center;
+}
+
+#visualization-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+#stratigraphic-svg {
+    border: 1px solid #eee;
+    background-color: white;
+}
+
+.axis {
+    font-size: 12px;
+}
+
+.axis-label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.layer-band {
+    fill: #f8f9fa;
+    opacity: 0.5;
+}
+
+.layer-text {
+    font-size: 12px;
+    dominant-baseline: middle;
+    text-anchor: end;
+}
+
+.formation-rect {
+    stroke: #333;
+    stroke-width: 1;
+    cursor: move;
+    transition: opacity 0.2s;
+}
+
+.formation-rect:hover {
+    opacity: 0.9;
+}
+
+.formation-text {
+    font-size: 11px;
+    font-weight: bold;
+    dominant-baseline: middle;
+    text-anchor: middle;
+    pointer-events: none;
+}
+
+.drag-handle {
+    fill: #e74c3c;
+    cursor: ew-resize;
+    opacity: 0.7;
+}
+
+.drag-handle:hover {
+    opacity: 1;
+}
+
+.tooltip {
+    position: absolute;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 100;
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+#status-bar {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    font-size: 14px;
+}
+
+#status-text {
+    color: #2c3e50;
+}
+
+/* 拖拽效果 */
+.drop-zone-active {
+    background-color: #d5f4e6 !important;
+}
+
+/* 图表和图例容器 */
+.chart-and-legend-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+}
+
+#visualization-container {
+    flex: 1;
+    min-width: 0; /* Allow flex item to shrink below content size */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.legend-panel {
+    width: 200px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    align-self: flex-start; /* Align to top */
+    max-height: 800px; /* Match the height of the chart */
+    overflow-y: auto;
+}
+
+.legend-panel h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 16px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+.legend-item:hover {
+    background-color: #f8f9fa;
+}
+
+.legend-color {
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+.legend-label {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+}
+
+.legend-item.selected {
+    background-color: #e3f2fd;
+    font-weight: bold;
+}
+
+/* 编辑弹窗样式 */
+.modal {
+    display: none; /* 默认隐藏 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* 半透明背景 */
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border: none;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.close {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal-body {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-footer button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#saveEditBtn {
+    background-color: #27ae60;
+    color: white;
+}
+
+#saveEditBtn:hover {
+    background-color: #219653;
+}
+
+#cancelEditBtn {
+    background-color: #95a5a6;
+    color: white;
+}
+
+#cancelEditBtn:hover {
+    background-color: #7f8c8d;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地层结构可视化编辑器</title>
+    <link rel="stylesheet" href="stratigraphic_styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>地层结构可视化编辑器</h1>
+            <div class="controls">
+            <input type="file" id="csvFileInput" accept=".csv" />
+            <button id="loadDataBtn">加载数据</button>
+            <button id="expandBtn">展开地层</button>
+            <button id="exportBtn">导出数据</button>
+            <button id="addSmallLayerBtn">添加小层</button>
+            <span id="instructions">提示：双击小层条可编辑属性；拖拽条两端可调整顶界/底界</span>
+        </div>
+        </header>
+        
+        <div class="chart-and-legend-container">
+            <div id="visualization-container">
+                <svg id="stratigraphic-svg" width="100%" height="800"></svg>
+            </div>
+            <div id="legend-container" class="legend-panel">
+                <h3>地层图例</h3>
+                <div id="legend-content"></div>
+            </div>
+        </div>
+        
+        <div id="status-bar">
+            <span id="status-text">请选择CSV文件以开始</span>
+        </div>
+    </div>
+    
+    <!-- 编辑弹窗 -->
+    <div id="editModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>编辑地层信息</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="editFormationName">地层名称:</label>
+                    <input type="text" id="editFormationName" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="editStratigraphy">所属层位:</label>
+                    <select id="editStratigraphy"></select>
+                </div>
+                <div class="form-group">
+                    <label for="editTopPosition">顶界所处位置（0~1）:</label>
+                    <input type="number" id="editTopPosition" min="0" max="1" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="editBottomPosition">底界所处位置（0~1）:</label>
+                    <input type="number" id="editBottomPosition" min="0" max="1" step="0.01">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="saveEditBtn">保存</button>
+                <button id="cancelEditBtn">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加小层弹窗 -->
+    <div id="addSmallLayerModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>添加小层信息</h3>
+                <span class="close" id="closeAddModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="addFormationName">地层名称:</label>
+                    <input type="text" id="addFormationName" placeholder="请输入地层名称">
+                </div>
+                <div class="form-group">
+                    <label for="addStratigraphy">所属层位:</label>
+                    <select id="addStratigraphy"></select>
+                </div>
+                <div class="form-group">
+                    <label for="addTopPosition">顶界所处位置（0~1）:</label>
+                    <input type="number" id="addTopPosition" min="0" max="1" step="0.01" value="0.00">
+                </div>
+                <div class="form-group">
+                    <label for="addBottomPosition">底界所处位置（0~1）:</label>
+                    <input type="number" id="addBottomPosition" min="0" max="1" step="0.01" value="0.10">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="saveAddBtn">添加</button>
+                <button id="cancelAddBtn">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="stratigraphic_interactions.js"></script>
+</body>
+</html>
