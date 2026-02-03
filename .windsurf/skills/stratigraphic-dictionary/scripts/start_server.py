@@ -182,6 +182,11 @@ def load_stratigraphy_reference(filepath):
     """加载地层分层参考文件"""
     global STRATIGRAPHY_ORDER
     
+    # 处理相对路径：如果不是绝对路径，则相对于当前工作目录
+    if not os.path.isabs(filepath):
+        # 使用当前工作目录（用户应该在项目根目录运行）
+        filepath = os.path.join(os.getcwd(), filepath)
+    
     if not os.path.exists(filepath):
         print(f"❌ 地层分层参考文件不存在: {filepath}")
         return False
@@ -206,6 +211,11 @@ def load_stratigraphy_reference(filepath):
 def preload_data(filepath):
     """预加载地层数据文件"""
     global PRELOADED_DATA, PRELOADED_FILENAME
+    
+    # 处理相对路径：如果不是绝对路径，则相对于当前工作目录
+    if not os.path.isabs(filepath):
+        # 使用当前工作目录（用户应该在项目根目录运行）
+        filepath = os.path.join(os.getcwd(), filepath)
     
     if not os.path.exists(filepath):
         print(f"❌ 数据文件不存在: {filepath}")
