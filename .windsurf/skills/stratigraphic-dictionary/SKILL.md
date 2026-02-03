@@ -11,103 +11,100 @@ description: 地层分层字典可视化编辑工具，提供地层结构的手�
 
 ## 环境准备
 
-### 步骤1：检查Python环境
-确保系统已安装Python 3.8或更高版本：
+### 步骤1：检查uv环境
+
+检查系统是否已安装uv：
 ```bash
-python --version
+uv --version
 ```
 
-### 步骤2：创建虚拟环境（推荐）
-在项目根目录下创建虚拟环境：
-```bash
-# 使用uv创建虚拟环境（推荐）
-uv venv
+如果提示"uv"不是内部或外部命令，说明未安装uv，请按以下步骤安装：
 
-# 或使用传统方式
-python -m venv venv
+**安装uv（Windows）：**
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-### 步骤3：激活虚拟环境
+**安装uv（Linux/macOS）：**
 ```bash
-# Windows
-venv\Scripts\activate
-
-# Linux/macOS
-source venv/bin/activate
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### 步骤4：安装依赖
+安装完成后，重新打开终端并验证：
 ```bash
-# 使用uv安装依赖（推荐）
+uv --version
+```
+
+### 步骤2：检查虚拟环境
+
+在项目根目录下检查是否存在`.venv`虚拟环境：
+```bash
+ls .venv
+```
+
+如果不存在，创建虚拟环境：
+```bash
+uv venv --python 3.11 .venv
+```
+
+### 步骤3：检查依赖包
+
+检查是否已安装所需的依赖包：
+```bash
+uv pip list
+```
+
+确认输出中包含以下包：
+- flask
+- pandas
+- numpy
+
+如果缺少依赖，安装所需包：
+```bash
 uv pip install flask pandas numpy
-
-# 或使用传统方式
-pip install flask pandas numpy
 ```
 
 ## 快速启动参考
 
-### 完整功能测试（推荐）
+### 完整功能测试
 ```bash
-# 使用uv运行（推荐）
-uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
-
-# 或使用python运行
-python ".agents\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
+uv run ".windsurf\skills\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
 ```
 
 ### 仅预加载数据进行编辑
 ```bash
-# 使用uv运行（推荐）
-uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -d "stratigraphic_depth_statistics.csv"
-
-# 或使用python运行
-python ".agents\stratigraphic-dictionary\scripts\start_server.py" -d "stratigraphic_depth_statistics.csv"
+uv run ".windsurf\skills\stratigraphic-dictionary\scripts\start_server.py" -d "stratigraphic_depth_statistics.csv"
 ```
 
 ### 手动上传模式
 ```bash
-# 使用uv运行（推荐）
-uv run ".agents\stratigraphic-dictionary\scripts\start_server.py"
-
-# 或使用python运行
-python ".agents\stratigraphic-dictionary\scripts\start_server.py"
+uv run ".windsurf\skills\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv"
 ```
+或
+```bash
+uv run ".windsurf\skills\stratigraphic-dictionary\scripts\start_server.py"
+```
+
 
 ## 核心功能
 
 ### 1. 启动地层编辑服务
 
-#### 方法一：使用启动脚本（推荐）
-运行便捷的启动脚本：
-```bash
-启动工具.bat
-```
-选择相应的启动模式：
-1. 正常模式（手动上传文件）
-2. 加载地层分层参考文件
-3. 预加载地层深度统计数据  
-4. 同时加载地层分层参考和深度统计数据
-
-#### 方法二：命令行启动
 ```bash
 # 正常模式
-uv run ".agents\stratigraphic-dictionary\scripts\start_server.py"
+uv run ".windsurf\skills\stratigraphic-dictionary\scripts\start_server.py"
 
 # 加载地层分层参考文件
-uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv"
+uv run ".windsurf\skills\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv"
 
 # 预加载数据文件（网页打开后立即显示）
-uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -d "stratigraphic_depth_statistics.csv"
+uv run ".windsurf\skills\stratigraphic-dictionary\scripts\start_server.py" -d "stratigraphic_depth_statistics.csv"
 
-# 同时加载两个文件（推荐）
-uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
+# 同时加载两个文件
+uv run ".windsurf\skills\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
 
 # 查看所有参数
-uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" --help
-
-# 如果没有uv，也可以使用python
-python ".agents\stratigraphic-dictionary\scripts\start_server.py" [参数]
+uv run ".windsurf\skills\stratigraphic-dictionary\scripts\start_server.py" --help
 ```
 
 **命令行参数说明：**
@@ -138,10 +135,8 @@ python ".agents\stratigraphic-dictionary\scripts\start_server.py" [参数]
 ### 3. 智能数据加载
 
 #### 步骤1：启动服务
-1. 运行 `uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -d "数据文件.csv"`
-2. 等待服务启动并自动打开浏览器
-
-**注意**：如果没有安装uv，可以使用 `python ".agents\stratigraphic-dictionary\scripts\start_server.py" -d "数据文件.csv"`
+运行 `uv run ".windsurf\skills\stratigraphic-dictionary\scripts\start_server.py" -d "数据文件.csv"`
+等待服务启动并自动打开浏览器
 
 #### 步骤2：自动检测和加载
 1. **页面自动检测**：页面打开时自动检查预加载数据
@@ -157,7 +152,7 @@ python ".agents\stratigraphic-dictionary\scripts\start_server.py" [参数]
 
 #### 步骤4：导出数据
 1. 完成编辑后点击"导出数据"按钮
-2. 系统会在 `uploads` 文件夹中生成 `{原文件名}_verification.csv` 文件
+2. 系统会在项目根目录的 `uploads` 文件夹中生成 `{原文件名}_verification.csv` 文件
 3. 导出文件包含编辑后的完整地层分层数据
 
 ## 技术特性
