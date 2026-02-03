@@ -9,21 +9,69 @@ description: 地层分层字典可视化编辑工具，提供地层结构的手�
 
 地层分层字典工具是一个基于Web的可视化编辑系统，帮助地质工作者快速创建和编辑地层分层数据。提供直观的拖拽界面来调整地层边界，支持实时预览和数据导出功能。
 
+## 环境准备
+
+### 步骤1：检查Python环境
+确保系统已安装Python 3.8或更高版本：
+```bash
+python --version
+```
+
+### 步骤2：创建虚拟环境（推荐）
+在项目根目录下创建虚拟环境：
+```bash
+# 使用uv创建虚拟环境（推荐）
+uv venv
+
+# 或使用传统方式
+python -m venv venv
+```
+
+### 步骤3：激活虚拟环境
+```bash
+# Windows
+venv\Scripts\activate
+
+# Linux/macOS
+source venv/bin/activate
+```
+
+### 步骤4：安装依赖
+```bash
+# 使用uv安装依赖（推荐）
+uv pip install flask pandas numpy
+
+# 或使用传统方式
+pip install flask pandas numpy
+```
+
 ## 快速启动参考
 
 ### 完整功能测试（推荐）
 ```bash
-python scripts/start_server.py -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
+# 使用uv运行（推荐）
+uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
+
+# 或使用python运行
+python ".agents\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
 ```
 
 ### 仅预加载数据进行编辑
 ```bash
-python scripts/start_server.py -d "stratigraphic_depth_statistics.csv"
+# 使用uv运行（推荐）
+uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -d "stratigraphic_depth_statistics.csv"
+
+# 或使用python运行
+python ".agents\stratigraphic-dictionary\scripts\start_server.py" -d "stratigraphic_depth_statistics.csv"
 ```
 
 ### 手动上传模式
 ```bash
-python scripts/start_server.py
+# 使用uv运行（推荐）
+uv run ".agents\stratigraphic-dictionary\scripts\start_server.py"
+
+# 或使用python运行
+python ".agents\stratigraphic-dictionary\scripts\start_server.py"
 ```
 
 ## 核心功能
@@ -44,19 +92,22 @@ python scripts/start_server.py
 #### 方法二：命令行启动
 ```bash
 # 正常模式
-python scripts/start_server.py
+uv run ".agents\stratigraphic-dictionary\scripts\start_server.py"
 
 # 加载地层分层参考文件
-python scripts/start_server.py -m "地层分层.csv"
+uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv"
 
 # 预加载数据文件（网页打开后立即显示）
-python scripts/start_server.py -d "stratigraphic_depth_statistics.csv"
+uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -d "stratigraphic_depth_statistics.csv"
 
 # 同时加载两个文件（推荐）
-python scripts/start_server.py -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
+uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
 
 # 查看所有参数
-python scripts/start_server.py --help
+uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" --help
+
+# 如果没有uv，也可以使用python
+python ".agents\stratigraphic-dictionary\scripts\start_server.py" [参数]
 ```
 
 **命令行参数说明：**
@@ -87,8 +138,10 @@ python scripts/start_server.py --help
 ### 3. 智能数据加载
 
 #### 步骤1：启动服务
-1. 运行 `python scripts/start_server.py -d "数据文件.csv"`
+1. 运行 `uv run ".agents\stratigraphic-dictionary\scripts\start_server.py" -d "数据文件.csv"`
 2. 等待服务启动并自动打开浏览器
+
+**注意**：如果没有安装uv，可以使用 `python ".agents\stratigraphic-dictionary\scripts\start_server.py" -d "数据文件.csv"`
 
 #### 步骤2：自动检测和加载
 1. **页面自动检测**：页面打开时自动检查预加载数据
