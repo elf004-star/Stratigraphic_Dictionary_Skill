@@ -25,8 +25,25 @@ df.to_csv('output.csv', index=False, encoding='utf-8-sig')
 Or use command line:
 
 ```bash
-python scripts/processor.py data.xls -c processor.config.json -o output.csv
+python scripts/processor.py "钻头详细-大页区块.xls" -c "references/config-example.json" -o "output.csv"
 ```
+
+## Default Execution for Current Project
+
+To process the default file in the current project:
+
+```bash
+python "c:\_CCQ\AchievementPython\CCQskills\Stratigraphic_Dictionary_Skill\.trae\skills\drilling-data-processor\scripts\processor.py" "c:\_CCQ\AchievementPython\CCQskills\Stratigraphic_Dictionary_Skill\钻头详细-大页区块.xls" -c "c:\_CCQ\AchievementPython\CCQskills\Stratigraphic_Dictionary_Skill\.trae\skills\drilling-data-processor\references\config-example.json" -o "c:\_CCQ\AchievementPython\CCQskills\Stratigraphic_Dictionary_Skill\output.csv"
+```
+
+## Best Practices for File Paths with Chinese Characters
+
+When working with files containing Chinese characters or special characters:
+
+1. Always use double quotes around file paths to handle spaces and special characters
+2. Use absolute paths when encountering encoding issues
+3. If character encoding issues occur, try using the raw string format or ensure your terminal supports UTF-8 encoding
+4. Consider renaming files to use ASCII characters only if persistent issues occur
 
 ## Configuration
 
