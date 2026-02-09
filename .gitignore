@@ -9,8 +9,6 @@ wheels/
 
 # Virtual environments
 .venv
-*.csv
-*.png
-*.txt
+
 新建文件夹/
 *report.md
