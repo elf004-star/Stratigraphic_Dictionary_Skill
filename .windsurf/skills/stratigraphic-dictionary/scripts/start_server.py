@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+"""
+地层分层字典可视化编辑工具 - Flask服务器
+
+此脚本启动地层分层字典的Web服务，支持数据预加载和可视化编辑。
+脚本路径相对于技能根目录运行，确保跨平台兼容性。
+"""
+
 from flask import Flask, request, jsonify, send_from_directory
 import pandas as pd
 import os
@@ -8,10 +16,17 @@ import time
 import argparse
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__, static_folder='../assets')
-# 使用绝对路径确保uploads目录在项目最外层
-project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-app.config['UPLOAD_FOLDER'] = os.path.join(project_root, 'uploads')
+# 确定技能根目录（脚本位于 scripts/ 子目录中）
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SKILL_ROOT = os.path.dirname(SCRIPT_DIR)
+ASSETS_DIR = os.path.join(SKILL_ROOT, 'assets')
+
+# uploads目录：优先使用当前工作目录下的uploads，便于用户访问
+UPLOADS_DIR = os.path.join(os.getcwd(), 'uploads')
+
+# 初始化Flask应用
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOADS_DIR
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # 确保上传目录存在
@@ -26,12 +41,13 @@ def allowed_file(filename):
 
 @app.route('/')
 def index():
-    return send_from_directory('../assets', 'stratigraphic_visualizer.html')
+    """提供主页面"""
+    return send_from_directory(ASSETS_DIR, 'stratigraphic_visualizer.html')
 
 @app.route('/<path:filename>')
 def serve_static(filename):
-    # 提供静态文件服务
-    return send_from_directory('../assets', filename)
+    """提供静态文件服务"""
+    return send_from_directory(ASSETS_DIR, filename)
 
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
@@ -178,16 +194,31 @@ PRELOADED_FILENAME = None
 # 地层分层参考数据（默认为空，通过命令行参数加载）
 STRATIGRAPHY_ORDER = []
 
+def resolve_path(filepath):
+    """
+    解析文件路径，支持相对路径和绝对路径
+    
+    规则：
+    - 绝对路径直接使用
+    - 相对路径基于当前工作目录解析
+    """
+    if not filepath:
+        return None
+    
+    if os.path.isabs(filepath):
+        return filepath
+    
+    # 相对路径：基于当前工作目录
+    return os.path.join(os.getcwd(), filepath)
+
+
 def load_stratigraphy_reference(filepath):
     """加载地层分层参考文件"""
     global STRATIGRAPHY_ORDER
     
-    # 处理相对路径：如果不是绝对路径，则相对于当前工作目录
-    if not os.path.isabs(filepath):
-        # 使用当前工作目录（用户应该在项目根目录运行）
-        filepath = os.path.join(os.getcwd(), filepath)
+    filepath = resolve_path(filepath)
     
-    if not os.path.exists(filepath):
+    if not filepath or not os.path.exists(filepath):
         print(f"❌ 地层分层参考文件不存在: {filepath}")
         return False
     
@@ -212,12 +243,9 @@ def preload_data(filepath):
     """预加载地层数据文件"""
     global PRELOADED_DATA, PRELOADED_FILENAME
     
-    # 处理相对路径：如果不是绝对路径，则相对于当前工作目录
-    if not os.path.isabs(filepath):
-        # 使用当前工作目录（用户应该在项目根目录运行）
-        filepath = os.path.join(os.getcwd(), filepath)
+    filepath = resolve_path(filepath)
     
-    if not os.path.exists(filepath):
+    if not filepath or not os.path.exists(filepath):
         print(f"❌ 数据文件不存在: {filepath}")
         return False
     
