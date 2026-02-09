@@ -1,0 +1,70 @@
+{
+  "input_file": "CCQ_Classification_with_factors.csv",
+  "output_file": "processed_CCQ_data.csv",
+  "column_mapping": {
+    "机械钻速": "机械钻速（m/h）",
+    "进尺": "进尺（m）",
+    "MSE": "ESM",
+    "井号": "备注"
+  },
+  "columns_to_extract": [
+    "序号",
+    "类别",
+    "置信度",
+    "进尺命中率",
+    "钻头型号",
+    "钻头尺寸mm",
+    "生产厂家",
+    "钻头类别",
+    "钻进方式",
+    "入井次数",
+    "主因子",
+    "钻压A",
+    "钻压B",
+    "转速A",
+    "转速B",
+    "排量A",
+    "排量B",
+    "泵压A",
+    "泵压B"
+  ],
+  "output_column_order": [
+    "序号", 
+    "类别", 
+    "置信度",
+    "进尺命中率",
+    "钻头型号", 
+    "生产厂家", 
+    "钻头类别", 
+    "钻头尺寸mm", 
+    "钻进方式", 
+    "入井次数", 
+    "机械钻速（m/h）", 
+    "进尺（m）", 
+    "主因子", 
+    "ESM", 
+    "备注",
+    "钻压A",
+    "钻压B",
+    "转速A",
+    "转速B",
+    "排量A",
+    "排量B",
+    "泵压A",
+    "泵压B"
+  ],
+  "classification_config": {
+    "classification_fields": [
+      {
+        "name": "钻头尺寸mm",
+        "priority": 1,
+        "sub_classification": {
+          "name": "类别",
+          "priority": 2
+        }
+      }
+    ],
+    "output_directory": "output",
+    "filename_prefix": true
+  }
+}
