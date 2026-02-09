@@ -9,7 +9,75 @@ description: 地层分层字典可视化编辑工具，提供地层结构的手�
 
 ## 快速开始
 
-### 启动服务
+### 步骤1：环境检查（必须执行）
+
+**⚠️ 重要：启动服务前必须完成以下环境检查**
+
+1. **检查uv环境**
+
+   ```bash
+   uv --version
+   ```
+
+   如果显示版本号，说明uv已安装。如果提示命令不存在，请先安装uv：
+
+   **Windows安装uv：**
+   ```powershell
+   powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+   ```
+
+   **Linux/macOS安装uv：**
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+2. **检查虚拟环境**
+
+   在项目根目录检查是否存在`.venv`目录：
+   
+   ```bash
+   # Windows
+   dir .venv
+   
+   # Linux/macOS
+   ls -la .venv
+   ```
+
+   如果不存在，创建虚拟环境：
+   ```bash
+   uv venv --python 3.11 .venv
+   ```
+
+3. **检查依赖包**
+
+   ```bash
+   uv pip list | findstr flask
+   ```
+
+   如果缺少依赖，安装所需包：
+   ```bash
+   uv pip install flask pandas numpy
+   ```
+
+### 步骤2：启动服务
+
+**优先使用uv运行（推荐）：**
+
+```bash
+# 基础启动
+uv run scripts/start_server.py
+
+# 加载地层分层参考文件
+uv run scripts/start_server.py -m "地层分层.csv"
+
+# 预加载地层数据文件
+uv run scripts/start_server.py -d "stratigraphic_depth_statistics.csv"
+
+# 同时加载参考文件和数据文件
+uv run scripts/start_server.py -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
+```
+
+**备选方案 - 仅当uv安装失败时使用python：**
 
 ```bash
 # 基础启动
@@ -20,15 +88,6 @@ python scripts/start_server.py -m "地层分层.csv"
 
 # 预加载地层数据文件
 python scripts/start_server.py -d "stratigraphic_depth_statistics.csv"
-
-# 同时加载参考文件和数据文件
-python scripts/start_server.py -m "地层分层.csv" -d "stratigraphic_depth_statistics.csv"
-```
-
-### 使用uv运行
-
-```bash
-uv run scripts/start_server.py [参数]
 ```
 
 ### 命令行参数
