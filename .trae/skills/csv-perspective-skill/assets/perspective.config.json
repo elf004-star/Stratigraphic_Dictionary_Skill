@@ -1,0 +1,37 @@
+{
+  "selected_columns": [
+    "序号",
+    "钻头型号",
+    "机械钻速（m/h）",
+    "进尺（m）",
+    "主因子",
+    "置信度",
+    "进尺命中率"
+  ],
+  "rename_columns": {
+    "钻头型号": "标签"
+  },
+  "pivot_settings": {
+    "group_by": "标签",
+    "aggregations": {
+      "序号": "min",
+      "机械钻速（m/h）": "weighted_average",
+      "进尺（m）": "weighted_average",
+      "主因子": "weighted_average",
+      "置信度": "weighted_average",
+      "进尺命中率": "weighted_average"
+    },
+    "weight_column": "置信度*进尺命中率"
+  },
+  "columns_to_remove": [
+    "置信度",
+    "进尺命中率"
+  ],
+  "final_columns": [
+    "序号",
+    "标签",
+    "机械钻速（m/h）",
+    "进尺（m）",
+    "主因子"
+  ]
+}
