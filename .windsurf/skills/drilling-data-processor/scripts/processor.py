@@ -697,6 +697,10 @@ def main():
     # 处理文件
     result_df = processor.load_and_process_csv(args.input_file)
     
+    # 添加序号列（如果还没有的话）
+    if '序号' not in result_df.columns:
+        result_df.insert(0, '序号', range(1, len(result_df) + 1))
+    
     # 确定输出文件路径
     if args.output:
         output_file = args.output
