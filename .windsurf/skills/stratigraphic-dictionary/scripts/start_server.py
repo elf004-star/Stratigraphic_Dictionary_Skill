@@ -252,13 +252,18 @@ def preload_data(filepath):
     try:
         df = pd.read_csv(filepath, encoding='utf-8-sig')
         
-        # 验证必要的列是否存在
+        # 定义必需的列
         required_columns = ['地层名称', '所属层位', '顶界所处位置（0~1）', '底界所处位置（0~1）']
+        
+        # 验证必要的列是否存在
         missing_columns = [col for col in required_columns if col not in df.columns]
         
         if missing_columns:
             print(f"❌ 文件缺少必要列: {missing_columns}")
             return False
+        
+        # 只选择必需的列，忽略其他列
+        df = df[required_columns]
         
         # 将数据转换为字典格式
         PRELOADED_DATA = df.to_dict('records')
