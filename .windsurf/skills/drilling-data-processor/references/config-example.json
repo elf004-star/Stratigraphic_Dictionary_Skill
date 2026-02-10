@@ -1,0 +1,90 @@
+{
+  "header_definition": {
+    "method": "row", 
+    "value": 1,
+    "description": "使用第1行为表头"
+  },
+  "data_start_row": 3,
+  "columns_to_extract": {
+    "enabled": true,
+    "method": "auto",
+    "columns": ["井号", "型号", "钻头类别", "$D$", "生产厂家", "$J$", "$K$", "$L$", "$P$", "$N$", "$O$", "$Q$", "$R$", "$S$", "$T$", "$U$", "$V$", "$W$", "$X$"],
+    "new_headers": ["", "钻头型号", "", "钻头尺寸mm", "生产厂家", "钻进方式", "入井时间", "入井次数", "地层信息", "起始井深", "结束井深", "进尺", "纯钻时间", "机械钻速", "钻井液密度", "钻压", "转速", "排量", "泵压"]
+  },
+  "processing_options": {
+    "remove_empty_rows": {
+      "enabled": true,
+      "columns": ["钻压", "转速", "排量", "泵压", "进尺", "机械钻速"]
+    },
+    "remove_invalid_number_rows": {
+      "enabled": true,
+      "columns": ["进尺", "机械钻速"]
+    },
+    "numeric_range_filter": {
+      "enabled": true,
+      "filters": [
+        {
+          "columns": ["进尺"],
+          "min_value": 1,
+          "max_value": 10000
+        },
+        {
+          "columns": ["机械钻速"],
+          "min_value": 0.01,
+          "max_value": 100
+        },
+        {
+          "columns": ["钻压A"],
+          "min_value": 0,
+          "max_value": 1000
+        },
+        {
+          "columns": ["转速A"],
+          "min_value": 0,
+          "max_value": 1000
+        }
+      ]
+    },
+    "column_splitting": [
+      {
+        "source_column": "地层信息",
+        "delimiter": "~",
+        "new_columns": ["起始地层", "结束地层"]
+      },
+      {
+        "source_column": "钻压",
+        "delimiter": "~",
+        "new_columns": ["钻压A", "钻压B"]
+      },
+      {
+        "source_column": "转速",
+        "delimiter": "~",
+        "new_columns": ["转速A", "转速B"]
+      },
+      {
+        "source_column": "排量",
+        "delimiter": "~",
+        "new_columns": ["排量A", "排量B"]
+      },
+      {
+        "source_column": "泵压",
+        "delimiter": "~",
+        "new_columns": ["泵压A", "泵压B"]
+      }
+    ],
+    "sorting": {
+      "enabled": true,
+      "columns": [
+        {
+          "column": "井号",
+          "ascending": true
+        },
+        {
+          "column": "结束井深",
+          "ascending": true
+        }
+      ]
+    }
+  },
+  "output_headers_mapping": {}
+}

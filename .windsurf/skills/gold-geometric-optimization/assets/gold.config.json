@@ -1,0 +1,36 @@
+{
+  "axis_ranges": {
+    "x": {
+      "min": "auto",
+      "max": "auto",
+      "min_factor": 0.8,
+      "max_factor": 1.2
+    },
+    "y": {
+      "min": "auto", 
+      "max": "auto",
+      "min_factor": 0.8,
+      "max_factor": 1.2
+    },
+    "z": {
+      "min": "auto",
+      "max": "auto", 
+      "min_factor": 0.8,
+      "max_factor": 1.6
+    }
+  },
+  "surface_ranges": {
+    "x": {
+      "min_factor": 0.1,
+      "max_factor": 1.0
+    },
+    "y": {
+      "min_factor": 0.1,
+      "max_factor": 1.0
+    },
+    "z": {
+      "min_factor": 0.1,
+      "max_factor": 1.0
+    }
+  }
+}
